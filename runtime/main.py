@@ -45,6 +45,12 @@ def main():
 
     while not (cv.waitKey(1) & 0xFF == ord(' ')):
         ret, frame = cam.read()
+        if not ret:
+            print("Unable To Read Frame")
+            cv.destroyAllWindows()
+            cam.release()
+            exit()
+        
         cv.rectangle(
             frame,
             (0,0),
@@ -60,6 +66,8 @@ def main():
         cv.imshow("Rock Paper Scissors", frame)
         
         if(cv.waitKey(1) & 0xFF == ord('q')):
+            cv.destroyAllWindows()
+            cam.release()
             exit()
 
     ret, frame = cam.read()
@@ -72,7 +80,7 @@ def main():
         -1
     )
     frame = center_text(frame, "ROCK", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("ROCK", frame)
+    cv.imshow("Rock Paper Scissors", frame)
     cv.waitKey(1000)
 
     ret, frame = cam.read()
@@ -85,7 +93,7 @@ def main():
         -1
     )
     frame = center_text(frame, "PAPER", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (0,0,0))
-    cv.imshow("PAPER", frame)
+    cv.imshow("Rock Paper Scissors", frame)
     cv.waitKey(1000)
     ret, frame = cam.read()
 
@@ -97,7 +105,7 @@ def main():
         -1
     )
     frame = center_text(frame, "SCISSORS", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("SCISSORS", frame)
+    cv.imshow("Rock Paper Scissors", frame)
     cv.waitKey(1000)
 
     userPlay = -1
@@ -121,7 +129,7 @@ def main():
             if not userPlay == -1:
                 break
 
-        cv.imshow("SHOOT", Renderframe)
+        cv.imshow("Rock Paper Scissors", Renderframe)
         if(cv.waitKey(1) & 0xFF == ord('q')):
             break
 
@@ -133,7 +141,6 @@ def main():
         -1
     )
 
-
     computerPlay = random.randint(0, 2)
     frame = center_text(frame, "COMPUTER", 200, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
     frame = center_text(frame, result.names[computerPlay].upper(), 150, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
@@ -144,8 +151,11 @@ def main():
 
     
 
-    cv.imshow("ROCK PAPER SCISSORS", frame)
+    cv.imshow("Rock Paper Scissors", frame)
     cv.waitKey(5000)
+
+    cv.destroyAllWindows()
+    cam.release()
 
 
 if __name__ == "__main__":
