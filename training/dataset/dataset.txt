@@ -1,0 +1,3 @@
+The Original Dataset used to train this project is located at 
+https://www.kaggle.com/datasets/abdallahwagih/rock-paper-scissors
+
