@@ -7,11 +7,11 @@ yolo_model = YOLO("models/model.pt")
 def playGame(userPlay, computerPlay):
     if(userPlay == computerPlay):
         return "TIE"
-    if userPlay == 0 & computerPlay == 1:
+    if userPlay == 0 and computerPlay == 1:
         return "PLAYER WINS"
-    if userPlay == 1 & computerPlay == 2:
+    if userPlay == 1 and computerPlay == 2:
         return "PLAYER WINS"
-    if userPlay == 2 & computerPlay == 0:
+    if userPlay == 2 and computerPlay == 0:
         return "PLAYER WINS"
     return "COMPUTER WINS"
 
@@ -57,7 +57,7 @@ def main():
 
         frame = center_text(frame, "Press Space To Start", 0, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
 
-        cv.imshow("frame", frame)
+        cv.imshow("Rock Paper Scissors", frame)
         
         if(cv.waitKey(1) & 0xFF == ord('q')):
             exit()
@@ -72,7 +72,7 @@ def main():
         -1
     )
     frame = center_text(frame, "ROCK", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("frame", frame)
+    cv.imshow("ROCK", frame)
     cv.waitKey(1000)
 
     ret, frame = cam.read()
@@ -85,7 +85,7 @@ def main():
         -1
     )
     frame = center_text(frame, "PAPER", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (0,0,0))
-    cv.imshow("frame", frame)
+    cv.imshow("PAPER", frame)
     cv.waitKey(1000)
     ret, frame = cam.read()
 
@@ -97,7 +97,7 @@ def main():
         -1
     )
     frame = center_text(frame, "SCISSORS", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("frame", frame)
+    cv.imshow("SCISSORS", frame)
     cv.waitKey(1000)
 
     userPlay = -1
@@ -121,7 +121,7 @@ def main():
             if not userPlay == -1:
                 break
 
-        cv.imshow("frame", Renderframe)
+        cv.imshow("SHOOT", Renderframe)
         if(cv.waitKey(1) & 0xFF == ord('q')):
             break
 
@@ -144,7 +144,7 @@ def main():
 
     
 
-    cv.imshow("frame", frame)
+    cv.imshow("ROCK PAPER SCISSORS", frame)
     cv.waitKey(5000)
 
 
