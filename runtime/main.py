@@ -42,15 +42,99 @@ def center_text(img, text, heightOffset, font, font_scale, font_thickness, color
 def main():
     print("Initializing Rock Paper Scissors")
     cam = cv.VideoCapture(0)
+    while True:
+        while not (cv.waitKey(1) & 0xFF == ord(' ')):
+            ret, frame = cam.read()
+            if not ret:
+                print("Unable To Read Frame")
+                cv.destroyAllWindows()
+                cam.release()
+                exit()
+            
+            cv.rectangle(
+                frame,
+                (0,0),
+                (640, 480),
+                (0,0,0),
+                -1
+            )
 
-    while not (cv.waitKey(1) & 0xFF == ord(' ')):
+            frame = center_text(frame, "Rock Paper Scissors", 100, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
+
+            frame = center_text(frame, "Press Space To Start", 0, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
+
+            frame = center_text(frame, "Press Q To Quit", -100, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
+
+            cv.imshow("Rock Paper Scissors", frame)
+            
+            if(cv.waitKey(1) & 0xFF == ord('q')):
+                cv.destroyAllWindows()
+                cam.release()
+                exit()
+
         ret, frame = cam.read()
-        if not ret:
-            print("Unable To Read Frame")
-            cv.destroyAllWindows()
-            cam.release()
-            exit()
-        
+
+        cv.rectangle(
+            frame,
+            (0,0),
+            (640, 480),
+            (0,0,0),
+            -1
+        )
+        frame = center_text(frame, "ROCK", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
+        cv.imshow("Rock Paper Scissors", frame)
+        cv.waitKey(1000)
+
+        ret, frame = cam.read()
+
+        cv.rectangle(
+            frame,
+            (0,0),
+            (640, 480),
+            (255,255,255),
+            -1
+        )
+        frame = center_text(frame, "PAPER", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (0,0,0))
+        cv.imshow("Rock Paper Scissors", frame)
+        cv.waitKey(1000)
+        ret, frame = cam.read()
+
+        cv.rectangle(
+            frame,
+            (0,0),
+            (640, 480),
+            (0,0,0),
+            -1
+        )
+        frame = center_text(frame, "SCISSORS", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
+        cv.imshow("Rock Paper Scissors", frame)
+        cv.waitKey(1000)
+
+        userPlay = -1
+        while userPlay == -1:
+            ret, frame = cam.read()
+            results = yolo_model.track(frame, stream=True)
+            Renderframe = frame.copy()
+            cv.rectangle(
+                Renderframe,
+                (0,0),
+                (640, 480),
+                (0,0,0),
+                -1
+            )
+            for result in results:
+                for box in result.boxes:
+                    if box.conf[0] > .6:
+                        Renderframe = center_text(Renderframe, result.names[int(box.cls[0])], 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
+                        userPlay = int(box.cls[0])
+                        break
+                if not userPlay == -1:
+                    break
+
+            cv.imshow("Rock Paper Scissors", Renderframe)
+            if(cv.waitKey(1) & 0xFF == ord('q')):
+                break
+
         cv.rectangle(
             frame,
             (0,0),
@@ -59,103 +143,19 @@ def main():
             -1
         )
 
-        frame = center_text(frame, "Rock Paper Scissors", 100, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
+        computerPlay = random.randint(0, 2)
+        frame = center_text(frame, "COMPUTER", 200, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
+        frame = center_text(frame, result.names[computerPlay].upper(), 150, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
+        frame = center_text(frame, "PLAYER", -150, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
+        frame = center_text(frame, result.names[userPlay].upper(), -200, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
+        frame = center_text(frame, playGame(userPlay, computerPlay), 0, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
 
-        frame = center_text(frame, "Press Space To Start", 0, cv.FONT_HERSHEY_SIMPLEX, 1, 1, (255,255,255))
+
+        
 
         cv.imshow("Rock Paper Scissors", frame)
-        
-        if(cv.waitKey(1) & 0xFF == ord('q')):
-            cv.destroyAllWindows()
-            cam.release()
-            exit()
+        cv.waitKey(5000)
 
-    ret, frame = cam.read()
-
-    cv.rectangle(
-        frame,
-        (0,0),
-        (640, 480),
-        (0,0,0),
-        -1
-    )
-    frame = center_text(frame, "ROCK", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("Rock Paper Scissors", frame)
-    cv.waitKey(1000)
-
-    ret, frame = cam.read()
-
-    cv.rectangle(
-        frame,
-        (0,0),
-        (640, 480),
-        (255,255,255),
-        -1
-    )
-    frame = center_text(frame, "PAPER", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (0,0,0))
-    cv.imshow("Rock Paper Scissors", frame)
-    cv.waitKey(1000)
-    ret, frame = cam.read()
-
-    cv.rectangle(
-        frame,
-        (0,0),
-        (640, 480),
-        (0,0,0),
-        -1
-    )
-    frame = center_text(frame, "SCISSORS", 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    cv.imshow("Rock Paper Scissors", frame)
-    cv.waitKey(1000)
-
-    userPlay = -1
-    while userPlay == -1:
-        ret, frame = cam.read()
-        results = yolo_model.track(frame, stream=True)
-        Renderframe = frame.copy()
-        cv.rectangle(
-            Renderframe,
-            (0,0),
-            (640, 480),
-            (0,0,0),
-            -1
-        )
-        for result in results:
-            for box in result.boxes:
-                if box.conf[0] > .6:
-                    Renderframe = center_text(Renderframe, result.names[int(box.cls[0])], 0, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-                    userPlay = int(box.cls[0])
-                    break
-            if not userPlay == -1:
-                break
-
-        cv.imshow("Rock Paper Scissors", Renderframe)
-        if(cv.waitKey(1) & 0xFF == ord('q')):
-            break
-
-    cv.rectangle(
-        frame,
-        (0,0),
-        (640, 480),
-        (0,0,0),
-        -1
-    )
-
-    computerPlay = random.randint(0, 2)
-    frame = center_text(frame, "COMPUTER", 200, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
-    frame = center_text(frame, result.names[computerPlay].upper(), 150, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    frame = center_text(frame, "PLAYER", -150, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
-    frame = center_text(frame, result.names[userPlay].upper(), -200, cv.FONT_HERSHEY_SIMPLEX, 2, 3, (255,255,255))
-    frame = center_text(frame, playGame(userPlay, computerPlay), 0, cv.FONT_HERSHEY_SIMPLEX, 1, 2, (255,255,255))
-
-
-    
-
-    cv.imshow("Rock Paper Scissors", frame)
-    cv.waitKey(5000)
-
-    cv.destroyAllWindows()
-    cam.release()
 
 
 if __name__ == "__main__":
