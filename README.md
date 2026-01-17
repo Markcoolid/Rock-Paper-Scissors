@@ -1,20 +1,27 @@
 # Rock Paper Scissors
-A Small Machine Learning Project by Mark Coolidge
+## Overview
+This is a small machine learning project that plays Rock Paper Scissors using a webcam. The system detects the player's hand gesture and will generate its own random hand to play and compare against.
 
-## About
-This was a simple project made over a couple of hours using Ultralytics' YOLO26L as a base.
+## Why I Built This
+I built this project to explore computer vision and real-time gesture recognition using YOLO26.
 
-The model was then trained on a dataset of Rock Paper Scissors games.
+## How It Works
+- The model is based on **Ultralytics YOLO26** and trained on a dataset of Rock Paper Scissors gestures from Kaggle.
+- The runtime code uses **OpenCV** to capture webcam input and classify gestures in real time.
+- The program compares the player’s gesture with its own choice and determines the winner.
 
-Both the training code and the runtime code are in this repo under training and runtime, respectively.
+The code is organized into:
+- `/training` - code and scripts used to train the model  
+- `/runtime` - code used to run the game with webcam input  
 
-## Running
-To run this project, your computer must have a webcam.
+## How to Run
+Requirements:
+- Python 3.x
+- Webcam
+- OpenCV (`pip install opencv-python`)  
+- Ultralytics YOLO (`pip install ultralytics`)
 
-This project requires both OpenCV and Ultralytics to be installed through pip.
-
-To play, run main.py in the /runtime folder.
-
-After the screen shows ROCK PAPER SCISSORS, throw out your pick so the webcam can see it.
-
-
+Run the game:
+```bash
+cd runtime
+python main.py
