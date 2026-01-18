@@ -8,7 +8,7 @@ def main():
         data="dataset/data.yaml",
         imgsz=640,
         batch=16,
-        epochs=1,
+        epochs=30,
         workers=6,
         device=0
     )
